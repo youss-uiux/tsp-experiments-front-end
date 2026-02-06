@@ -1,0 +1,83 @@
+<div class="tsp-container">
+  <h1>Problème du Voyageur de Commerce (TSP)</h1>
+
+  <div class="controls">
+    <select [ngModel]="selectedInstance" (ngModelChange)="selectInstance($event)" [disabled]="instances.length === 0">
+      <option *ngFor="let instance of instances" [ngValue]="instance">
+        {{ instance.id }}
+      </option>
+    </select>
+
+    <button (click)="solve()" [disabled]="loading || !selectedInstance" class="btn-solve">
+      {{ loading ? 'Résolution en cours...' : 'Résoudre' }}
+    </button>
+
+    <button (click)="loadData()" class="btn-reload">
+      Recharger données
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="content" *ngIf="selectedInstance">
+    <div class="graph-section">
+      <h2>Visualisation</h2>
+      <app-tsp-graph
+        [distances]="selectedInstance.distances"
+        [route]="solution?.route ?? null">
+      </app-tsp-graph>
+    </div>
+
+    <div class="results-section">
+      <h2>Résultats</h2>
+
+      <div *ngIf="!solution" class="no-results">
+        <p>Cliquez sur "Résoudre" pour générer une solution</p>
+      </div>
+
+      <div *ngIf="solution" class="results">
+        <div class="result-item">
+          <strong>ID Problème:</strong>
+          <span>{{ solution.problemId }}</span>
+        </div>
+
+        <div class="result-item">
+          <strong>Itinéraire:</strong>
+          <span class="route">{{ solution.route.join(' → ') }}</span>
+        </div>
+
+        <div class="result-item">
+          <strong>Distance totale:</strong>
+          <span class="distance">{{ solution.totalDistance | number:'1.6-6' }}</span>
+        </div>
+
+        <div class="result-item" *ngIf="solution.executionTime">
+          <strong>Temps d'exécution:</strong>
+          <span>{{ solution.executionTime }}ms</span>
+        </div>
+
+        <div class="result-item" *ngIf="getExpectedDistance() !== null">
+          <strong>Distance optimale attendue:</strong>
+          <span>{{ getExpectedDistance() | number:'1.6-6' }}</span>
+        </div>
+
+        <div class="result-item" *ngIf="solution.isOptimal" class="optimal">
+          <strong>✓ Solution optimale</strong>
+        </div>
+      </div>
+
+      <div class="info-section" *ngIf="selectedInstance.expectedSolution">
+        <h3>Solution attendue</h3>
+        <p>{{ selectedInstance.expectedSolution.join(' → ') }}</p>
+        <p>Distance: {{ getExpectedDistance() | number:'1.6-6' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="instances.length === 0 && !loading" class="no-data">
+    <p>Aucune donnée chargée. Veuillez recharger.</p>
+  </div>
+</div>
+

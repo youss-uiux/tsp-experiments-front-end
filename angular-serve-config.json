@@ -1,0 +1,12 @@
+{
+  "configurations": {
+    "development": {
+      "browserTarget": "tsp:build:development"
+    },
+    "production": {
+      "browserTarget": "tsp:build:production"
+    }
+  },
+  "defaultConfiguration": "development"
+}
+

@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TSPViewerComponent } from './components/tsp-viewer/tsp-viewer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, TSPViewerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
