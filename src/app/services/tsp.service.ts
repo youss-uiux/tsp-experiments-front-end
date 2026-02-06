@@ -19,19 +19,22 @@ export class TSPService {
   parseTestData(fileContent: string): TSPProblem[] {
     const instances: TSPProblem[] = [];
     const lines = fileContent.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    //console.log(lines);
 
     let i = 0;
     let blockIndex = 0;
 
-    while (i < lines.length) {
+    while (i < 10) {
       const currentLine = lines[i];
+      //console.log(`Processing line ${i}: ${currentLine}`);
 
       // Vérifier si c'est une ligne de distances (commence par des nombres)
       if (/^[\d.]+\s/.test(currentLine)) {
         const distanceParts = currentLine.split(/\s+/).map(x => parseFloat(x)).filter(x => !isNaN(x));
 
         // La ligne suivante doit contenir "output"
-        if (i + 1 < lines.length && lines[i + 1].startsWith('output')) {
+        if (i + 1 < 10 && lines[i + 1].startsWith('output')) {
+          console.log(`Found distance matrix at line ${i} with output at line ${i + 1}`);
           const outputLine = lines[i + 1]
             .replace('output', '')
             .trim()
@@ -62,7 +65,7 @@ export class TSPService {
           }
         }
       }
-
+        console.log(instances);
       i++;
     }
 

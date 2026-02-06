@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { TSPService } from '../../services/tsp.service';
 import { TSPProblem, TSPSolution } from '../../models/tsp.model';
 import { TSPGraphComponent } from '../tsp-graph/tsp-graph.component';
@@ -9,7 +9,7 @@ import { TSPGraphComponent } from '../tsp-graph/tsp-graph.component';
 @Component({
   selector: 'app-tsp-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule, TSPGraphComponent],
+  imports: [CommonModule, FormsModule, TSPGraphComponent],
   templateUrl: './tsp-viewer.component.html',
   styleUrls: ['./tsp-viewer.component.scss']
 })
@@ -32,6 +32,7 @@ export class TSPViewerComponent implements OnInit {
     this.tspService.loadTestDataFromFile('tsp10_test_concorde.txt').subscribe({
       next: (content) => {
         this.instances = this.tspService.parseTestData(content);
+        console.log('Instances chargées :', this.instances);
         if (this.instances.length > 0) {
           this.selectInstance(this.instances[0]);
         }
